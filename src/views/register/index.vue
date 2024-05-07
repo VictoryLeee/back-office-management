@@ -6,7 +6,7 @@
             <!-- 标题的盒子 -->
             <div class="title-box"></div>
             <!-- 注册的表单区域 -->
-            <el-form :model="regForm" :rules="regRules" ref="regRef">
+            <el-form :model="regForm" :rules="regRules" ref="regForm">
                 <!-- 用户名 -->
                 <el-form-item prop="username">
                     <el-input v-model="regForm.username" placeholder="请输入用户名"></el-input>
@@ -20,7 +20,7 @@
                     <el-input v-model="regForm.repassword" type="password" placeholder="请再次确认密码"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" class="btn-reg">注册</el-button>
+                    <el-button type="primary" class="btn-reg" @click="regNewUserFn('regForm')">注册</el-button>
                     <el-link type="info">去登录</el-link>
                 </el-form-item>
             </el-form>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { registerAPI } from '@/api/index'
+
 export default {
   name: 'my-register',
   data () {
@@ -72,6 +74,25 @@ export default {
           { validator: samePwd, trigger: 'blur' }
         ]
       }
+    }
+  },
+  methods: {
+    regNewUserFn (regForm) {
+    // 进行表单预验证
+      this.$refs.regForm.validate(async valid => {
+        if (!valid) return false
+        // 尝试拿到用户输入的内容
+        // console.log(this.regForm)
+        // 1. 调用注册接口
+        const { data: res } = await registerAPI(this.regForm)
+        console.log(res)
+        // 2. 注册失败，提示用户
+        if (res.code !== 0) return this.$message.error(res.message)
+        // 3. 注册成功，提示用户
+        this.$message.success(res.message)
+        // 4. 跳转到登录页面
+        this.$router.push('/login')
+      })
     }
   }
 }
