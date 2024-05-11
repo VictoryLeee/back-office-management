@@ -33,6 +33,36 @@
         <img src="../../assets/images/logo.png" alt="" v-else />
         <span>欢迎 {{ nickname || username }}</span>
     </div>
+     <!-- 左侧导航菜单 -->
+     <el-menu
+          default-active="1"
+          class="el-menu-vertical-demo"
+          background-color="#23262E"
+          text-color="#fff"
+          active-text-color="#409EFF"
+          unique-opened
+        >
+          <!-- 不包含子菜单的“一级菜单” -->
+          <el-menu-item index="1"
+            ><i class="el-icon-s-tools"></i>一级菜单</el-menu-item
+          >
+          <!-- 包含子菜单的“一级菜单” -->
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-s-tools"></i>
+              <span>一级菜单</span>
+            </template>
+            <el-menu-item index="2-1"
+              ><i class="el-icon-star-on"></i>二级菜单</el-menu-item
+            >
+            <el-menu-item index="2-2"
+              ><i class="el-icon-star-on"></i>二级菜单</el-menu-item
+            >
+            <el-menu-item index="2-3"
+              ><i class="el-icon-star-on"></i>二级菜单</el-menu-item
+            >
+          </el-submenu>
+        </el-menu>
 </el-aside>
         <el-container>
           <!-- 页面主体区域 -->
@@ -131,5 +161,12 @@ export default {
     color: white;
     font-size: 12px;
   }
+  .el-aside {
+  .el-submenu,
+  .el-menu-item {
+    width: 200px;
+    user-select: none;
+  }
+}
 }
   </style>
