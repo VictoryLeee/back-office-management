@@ -78,8 +78,17 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { getMenusAPI } from '@/api'
 export default {
   name: 'my-layout',
+  data () {
+    return {
+      menus: [] // 侧边栏数据
+    }
+  },
+  created () {
+    this.getMenusListFn()
+  },
   methods: {
     logoutFn () {
     // 询问用户是否退出登录
@@ -97,6 +106,11 @@ export default {
           )
         })
         .catch((err) => err)
+    },
+    async getMenusListFn () {
+      const { data: res } = await getMenusAPI()
+      console.log(res)
+      this.menus = res.data
     }
   },
   computed: {
